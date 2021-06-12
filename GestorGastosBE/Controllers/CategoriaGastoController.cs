@@ -1,5 +1,7 @@
 ﻿using GestorGastosBE.Entities;
 using GestorGastosBE.Repository;
+using GestorGastosBE.Services;
+using GestorGastosBE.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,23 +15,23 @@ namespace GestorGastosBE.Controllers
     [ApiController]
     public class CategoriaGastoController : ControllerBase
     {
-        private readonly GGContext _context;
+        private readonly ICategoriaGastoService _service;
 
-        public CategoriaGastoController(GGContext context)
+        public CategoriaGastoController(ICategoriaGastoService service)
         {
-            _context = context;
+            _service = service;
         }
 
        [HttpGet("GetAll")]
         public IEnumerable<CategoriaGasto> Get()
         {
-            return _context.CategoriasGastos.ToArray();
+            return _service.Get();
         }
 
         [HttpGet("GetById/{id:int}")]
         public CategoriaGasto GetById(int Id)
         {
-            return _context.CategoriasGastos.FirstOrDefault(x => x.IdCategoria == Id);
+            return _service.GetById(Id);
         }
     }
 }
