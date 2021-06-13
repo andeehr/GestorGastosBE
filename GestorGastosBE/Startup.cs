@@ -13,8 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GestorGastosBE.Repository;
-using GestorGastosBE.Services.Interfaces;
-using GestorGastosBE.Services;
+using GestorGastosBE.Repository.Interfaces;
 
 namespace GestorGastosBE
 {
@@ -33,7 +32,7 @@ namespace GestorGastosBE
             services.AddDbContext<GGContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<ICategoriaGastoService, CategoriaGastoService>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
