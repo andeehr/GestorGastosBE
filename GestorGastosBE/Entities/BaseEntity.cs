@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GestorGastosBE.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace GestorGastosBE.Entities
 {
-    public class CategoriaGasto : BaseEntity
+    public class BaseEntity : IEntity
     {
-        public string Descripcion { get; set; }
+        [Key]
+        public int Id { get; set; }
     }
 }
