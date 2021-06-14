@@ -25,7 +25,7 @@ namespace GestorGastosBE.Repository
         {
             return entity.SingleOrDefault(s => s.Id == id);
         }
-        public void Insert(T entity)
+        public T Insert(T entity)
         {
             if (entity == null) {
                 throw new ArgumentNullException("entity");
@@ -33,14 +33,16 @@ namespace GestorGastosBE.Repository
 
             this.entity.Add(entity);
             _context.SaveChanges();
+            return entity;
         }
-        public void Update(T entity)
+        public T Update(T entity)
         {
             if (entity == null) {
                 throw new ArgumentNullException("entity");
             }
 
             _context.SaveChanges();
+            return entity;
         }
         public void Delete(int? id)
         {

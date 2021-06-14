@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GestorGastosBE.Repository.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IGastoRepository
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
-        T Insert(T entity);
-        T Update(T entity);
+        IEnumerable<Gasto> GetAll();
+        Gasto GetById(int id);
+        Gasto Insert(Gasto entity);
+        Gasto Update(Gasto entity);
         void Delete(int? id);
     }
 }

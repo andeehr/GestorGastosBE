@@ -33,8 +33,14 @@ namespace GestorGastosBE
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IGastoRepository, GastoRepository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddControllers();
             services.AddSwaggerGen(c => {
