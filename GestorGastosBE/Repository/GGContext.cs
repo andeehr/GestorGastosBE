@@ -14,10 +14,16 @@ namespace GestorGastosBE.Repository
         }
 
         public DbSet<CategoriaGasto> CategoriasGastos { get; set; }
+        public DbSet<Gasto> Gastos { get; set; }
+        public DbSet<Medio> Medios { get; set; }
+        public DbSet<SubcategoriaGasto> SubcategoriasGasto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CategoriaGasto>().ToTable("CategoriaGasto");
+            modelBuilder.Entity<Gasto>().ToTable("Gasto");
+            modelBuilder.Entity<Medio>().ToTable("Medio");
+            modelBuilder.Entity<SubcategoriaGasto>().ToTable("SubcategoriaGasto");
         }
 
     }
