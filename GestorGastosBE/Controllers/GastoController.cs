@@ -26,5 +26,29 @@ namespace GestorGastosBE.Controllers
         {
             return _repository.GetAll();
         }
+
+        [HttpGet("Get/{id:int}")]
+        public Gasto GetById(int Id)
+        {
+            return _repository.GetById(Id);
+        }
+
+        [HttpPost("Add")]
+        public Gasto Add([FromBody] Gasto entity)
+        {
+            return _repository.Insert(entity);
+        }
+
+        [HttpPost("Update")]
+        public Gasto Update([FromBody] Gasto entity)
+        {
+            return _repository.Update(entity);
+        }
+
+        [HttpPost("Delete/{id:int}")]
+        public void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
     }
 }
