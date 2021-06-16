@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GestorGastosBE.Repository
 {
-    public class GastoRepository : IGastoRepository
+    public class GastoRepository :IGastoRepository
     {
         private readonly GGContext _context;
 
@@ -19,29 +19,57 @@ namespace GestorGastosBE.Repository
 
         public void Delete(int? id)
         {
-            throw new NotImplementedException();
+            var result = _context.Gastos.SingleOrDefault(s => s.Id == id);
+            if (result == null) {
+                throw new Exception("El gasto no existe");
+            }
+            _context.Remove(result);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Gasto> GetAll()
         {
             return _context.Gastos.Include(g => g.Medio)
-                            .Include(g=>g.SubcategoriaGasto)
+                            .Include(g => g.SubcategoriaGasto)
                             .AsEnumerable();
         }
 
         public Gasto GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Gastos.Include(g => g.Medio)
+                            .Include(g => g.SubcategoriaGasto)
+                            .SingleOrDefault(s => s.Id == id);
         }
 
         public Gasto Insert(Gasto entity)
         {
-            throw new NotImplementedException();
+            Validate(entity);
+            _context.Gastos.Add(entity);
+            _context.SaveChanges();
+            return entity;
         }
 
         public Gasto Update(Gasto entity)
         {
-            throw new NotImplementedException();
+            Validate(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
+            return entity;
+        }
+
+        private void Validate(Gasto entity)
+        {
+            if (entity == null) {
+                throw new ArgumentNullException("entity");
+            }
+
+            if (!_context.Medios.Any(v => v.Id == entity.IdMedio)) {
+                throw new Exception("El medio no existe");
+            }
+
+            if (!_context.SubcategoriasGasto.Any(v => v.Id == entity.IdSubcategoria)) {
+                throw new Exception("La subcategoria no existe");
+            }
         }
     }
 }
