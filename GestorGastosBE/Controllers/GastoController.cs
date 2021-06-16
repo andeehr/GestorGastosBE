@@ -28,27 +28,49 @@ namespace GestorGastosBE.Controllers
         }
 
         [HttpGet("Get/{id:int}")]
-        public Gasto GetById(int Id)
+        public ActionResult GetById(int id)
         {
-            return _repository.GetById(Id);
+            var result = _repository.GetById(id);
+            if (result == null) {
+                return NotFound("El gasto no existe");
+            }
+            return Ok(result);
         }
 
         [HttpPost("Add")]
-        public Gasto Add([FromBody] Gasto entity)
+        public ActionResult Add([FromBody] Gasto entity)
         {
-            return _repository.Insert(entity);
+            try {
+                var result = _repository.Insert(entity);
+                return Ok(result);
+            }
+            catch (Exception e) {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("Update")]
-        public Gasto Update([FromBody] Gasto entity)
+        public ActionResult Update([FromBody] Gasto entity)
         {
-            return _repository.Update(entity);
+            try {
+                var result = _repository.Update(entity);
+                return Ok(result);
+            }
+            catch (Exception e) {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("Delete/{id:int}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            _repository.Delete(id);
+            try {
+                _repository.Delete(id);
+                return Ok();
+            }
+            catch (Exception e) {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
