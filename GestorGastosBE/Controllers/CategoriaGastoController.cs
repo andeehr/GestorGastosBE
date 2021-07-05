@@ -21,16 +21,22 @@ namespace GestorGastosBE.Controllers
             _repository = repository;
         }
 
-       [HttpGet("GetAll")]
-        public IEnumerable<CategoriaGasto> Get()
+        [HttpGet("GetAll")]
+        public ActionResult Get()
         {
-            return _repository.GetAll();
+            var result = _repository.GetAll();
+            return Ok(result);
         }
 
+
         [HttpGet("Get/{id:int}")]
-        public CategoriaGasto GetById(int Id)
+        public ActionResult GetById(int id)
         {
-            return _repository.GetById(Id);
+            var result = _repository.GetById(id);
+            if (result == null) {
+                return NotFound("La categoria no existe");
+            }
+            return Ok(result);
         }
     }
 }
