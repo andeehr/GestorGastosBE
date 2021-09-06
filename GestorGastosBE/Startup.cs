@@ -37,6 +37,11 @@ namespace GestorGastosBE
             services.AddScoped<IIngresoRepository, IngresoRepository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddCors(o => o.AddPolicy("LowCorsPolicy", builder => {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -58,6 +63,7 @@ namespace GestorGastosBE
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GestorGastosBE v1"));
             }
 
+            app.UseCors("LowCorsPolicy");
             app.UseHttpsRedirection();
 
             app.UseRouting();
