@@ -1,76 +1,77 @@
-﻿using GestorGastosBE.Entities;
-using GestorGastosBE.Repository;
-using GestorGastosBE.Repository.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using GestorGastosBE.Api.Controllers;
+using GestorGastosBE.Api.Models.Gasto;
+using GestorGastosBE.Entities;
+using GestorGatosBE.Common.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GestorGastosBE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GastoController :ControllerBase
+    public class GastoController : ApiController
     {
-        private readonly IGastoRepository _repository;
+        private readonly IGastoService service;
 
-        public GastoController(IGastoRepository repository)
+        public GastoController(IGastoService service, IWebHostEnvironment environment, ILogger<GastoController> logger, IMapper mapper)
+            : base(environment, logger, mapper)
         {
-            _repository = repository;
+            this.service = service;
         }
 
-        [HttpGet("GetAll")]
-        public IEnumerable<Gasto> Get()
+        [HttpGet]
+        public ActionResult<IEnumerable<Gasto>> GetAll()
         {
-            return _repository.GetAll();
-        }
-
-        [HttpGet("Get/{id:int}")]
-        public ActionResult GetById(int id)
-        {
-            var result = _repository.GetById(id);
-            if (result == null) {
-                return NotFound("El gasto no existe");
-            }
+            var result = service.GetAll();
             return Ok(result);
         }
 
-        [HttpPost("Add")]
-        public ActionResult Add([FromBody] Gasto entity)
+        [HttpGet("{id}")]
+        public ActionResult<GastoModel> GetById(int id)
         {
-            try {
-                var result = _repository.Insert(entity);
-                return Ok(result);
+            var entity = service.GetById(id);
+            if (entity != null)
+            {
+                return Mapper.Map<GastoModel>(entity);
             }
-            catch (Exception e) {
-                return BadRequest(e.Message);
-            }
+            return NotFound();
         }
 
-        [HttpPost("Update")]
-        public ActionResult Update([FromBody] Gasto entity)
+        [HttpPost]
+        public ActionResult<Gasto> Add([FromBody] GastoModel model)
         {
-            try {
-                var result = _repository.Update(entity);
-                return Ok(result);
-            }
-            catch (Exception e) {
-                return BadRequest(e.Message);
-            }
+            var entity = Mapper.Map<Gasto>(model);
+            var result = service.Add(entity);
+            return Created(entity.Id, Mapper.Map<GastoModel>(result));
         }
 
-        [HttpPost("Delete/{id:int}")]
-        public ActionResult Delete(int id)
+        [HttpPut]
+        public ActionResult<Gasto> Update([FromBody] GastoModel model)
         {
-            try {
-                _repository.Delete(id);
+            var entity = Mapper.Map<Gasto>(model);
+            var dbEntity = service.GetById(model.Id);
+            if (dbEntity != null)
+            {
+                var result = service.Update(entity, dbEntity);
+                return Created(entity.Id, Mapper.Map<GastoModel>(result));
+            }
+            return NotFound();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Gasto> Remove(int id)
+        {
+            var entity = service.GetById(id);
+
+            if (entity != null)
+            {
+                service.Remove(entity);
                 return Ok();
             }
-            catch (Exception e) {
-                return BadRequest(e.Message);
-            }
+            return NotFound();
         }
     }
 }

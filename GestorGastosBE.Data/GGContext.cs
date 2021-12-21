@@ -1,13 +1,9 @@
 ﻿using GestorGastosBE.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GestorGastosBE.Repository
+namespace GestorGastosBE
 {
-    public class GGContext :DbContext
+    public class GGContext : DbContext
     {
         public GGContext(DbContextOptions<GGContext> options) : base(options)
         {
