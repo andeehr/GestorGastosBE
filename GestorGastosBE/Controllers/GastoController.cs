@@ -22,10 +22,9 @@ namespace GestorGastosBE.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult Get()
+        public IEnumerable<Gasto> Get()
         {
-            var result = _repository.GetAll();
-            return Ok(result);
+            return _repository.GetAll();
         }
 
         [HttpGet("Get/{id:int}")]
