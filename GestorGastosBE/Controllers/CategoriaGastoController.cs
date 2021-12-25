@@ -1,36 +1,43 @@
-﻿using GestorGastosBE.Entities;
-using GestorGastosBE.Repository;
-using GestorGastosBE.Repository.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using GestorGastosBE.Api.Controllers;
+using GestorGastosBE.Api.Models.CategoriaGasto;
+using GestorGastosBE.Entities;
+using GestorGatosBE.Common.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GestorGastosBE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriaGastoController : ControllerBase
+    public class CategoriaGastoController : ApiController
     {
-        private readonly IRepository<CategoriaGasto> _repository;
+        private readonly ICategoriaGastoService service;
 
-        public CategoriaGastoController(IRepository<CategoriaGasto> repository)
+        public CategoriaGastoController(ICategoriaGastoService service, IWebHostEnvironment environment, ILogger<CategoriaGastoController> logger, IMapper mapper)
+            : base(environment, logger, mapper)
         {
-            _repository = repository;
+            this.service = service;
         }
 
-       [HttpGet("GetAll")]
-        public IEnumerable<CategoriaGasto> Get()
+        [HttpGet]
+        public ActionResult<IEnumerable<CategoriaGasto>> GetAll()
         {
-            return _repository.GetAll();
+            var result = service.GetAll();
+            return Ok(result);
         }
 
-        [HttpGet("Get/{id:int}")]
-        public CategoriaGasto GetById(int Id)
+        [HttpGet("{id}")]
+        public ActionResult<CategoriaGastoModel> GetById(int id)
         {
-            return _repository.GetById(Id);
+            var entity = service.GetById(id);
+            if (entity != null)
+            {
+                return Mapper.Map<CategoriaGastoModel>(entity);
+            }
+            return NotFound();
         }
     }
 }
