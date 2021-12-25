@@ -34,7 +34,6 @@ namespace GestorGastosBE
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IGastoRepository, GastoRepository>();
-            services.AddScoped<IIngresoRepository, IngresoRepository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -12,7 +12,7 @@ namespace GestorGastosBE.Repository
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.CategoriasGasto.Any()) {
+            if (context.CategoriasGastos.Any()) {
                 return;   // DB has been seeded
             }
         }
