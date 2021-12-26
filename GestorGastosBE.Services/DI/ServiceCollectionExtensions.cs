@@ -9,6 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<ICategoriaGastoService, CategoriaGastoService>();
             services.AddScoped<IGastoService, GastoService>();
+            services.AddScoped<IIngresoService, IngresoService>();
 
             return services;
         }

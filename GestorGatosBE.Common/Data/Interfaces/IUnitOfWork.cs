@@ -7,6 +7,7 @@ namespace GestorGatosBE.Common.Data.Interfaces
     {
         IGenericRepository<CategoriaGasto> CategoriaGastoRepository { get; }
         IGenericRepository<Gasto> GastoRepository { get; }
+        IGenericRepository<Ingreso> IngresoRepository { get; }
         void Commit();
     }
 }

@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
-using GestorGastosBE.Api.Models.CategoriaGasto;
+using GestorGastosBE.Api.Models.Categoria;
 using GestorGastosBE.Api.Models.SubcategoriaGasto;
 using GestorGastosBE.Entities;
 
 namespace GestorGastosBE.Api.Config.Automapper
 {
-    public class CategoriaGastoProfile : Profile
+    public class CategoriaProfile : Profile
     {
-        public CategoriaGastoProfile()
+        public CategoriaProfile()
         {
-            CreateMap<CategoriaGasto, CategoriaGastoModel>();
+            CreateMap<CategoriaGasto, CategoriaModel>();
+            CreateMap<CategoriaIngreso, CategoriaModel>();
             CreateMap<SubcategoriaGasto, SubcategoriaGastoModel>();
         }
     }

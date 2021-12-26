@@ -20,6 +20,9 @@ namespace GestorGastosBE.Data
         private IGenericRepository<Gasto> gastoRepository;
         public IGenericRepository<Gasto> GastoRepository => gastoRepository ??= new GenericRepository<Gasto>(context);
 
+        private IGenericRepository<Ingreso> ingresoRepository;
+        public IGenericRepository<Ingreso> IngresoRepository => ingresoRepository ??= new GenericRepository<Ingreso>(context);
+
         public void Commit()
         {
             context.SaveChanges();

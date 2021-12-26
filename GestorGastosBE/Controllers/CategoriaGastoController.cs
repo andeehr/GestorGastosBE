@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GestorGastosBE.Api.Controllers;
-using GestorGastosBE.Api.Models.CategoriaGasto;
+using GestorGastosBE.Api.Models.Categoria;
 using GestorGastosBE.Entities;
 using GestorGatosBE.Common.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
@@ -30,12 +30,12 @@ namespace GestorGastosBE.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CategoriaGastoModel> GetById(int id)
+        public ActionResult<CategoriaModel> GetById(int id)
         {
             var entity = service.GetById(id);
             if (entity != null)
             {
-                return Mapper.Map<CategoriaGastoModel>(entity);
+                return Mapper.Map<CategoriaModel>(entity);
             }
             return NotFound();
         }
